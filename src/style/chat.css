@@ -1,3 +1,6 @@
+/* ======================= */
+/*       Global Styles     */
+/* ======================= */
 * {
   margin: 0;
   padding: 0;
@@ -17,17 +20,21 @@ body {
   align-items: center;
 }
 
-/* Chat container - full screen on all devices */
+/* ======================= */
+/*       Chat Container    */
+/* ======================= */
 .chat {
-  width: 100vw;   /* full width */
-  height: 100vh;  /* full height */
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background: #fff;
   overflow: hidden;
 }
 
-/* Header */
+/* ======================= */
+/*          Header         */
+/* ======================= */
 .chat-header {
   display: flex;
   justify-content: space-between;
@@ -46,28 +53,31 @@ body {
   font-size: 14px;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .chat-header button:hover {
   background: #1ebe57;
 }
 
-/* Messages */
+/* ======================= */
+/*         Messages        */
+/* ======================= */
 .messages {
   flex: 1;
   padding: 10px;
-  overflow-y: auto;
   display: flex;
-  font-size: 25px;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .messages::-webkit-scrollbar {
   width: 0px; /* hide scrollbar */
 }
 
-/* Chat bubbles */
-/* Chat bubbles */
+/* ======================= */
+/*       Chat Bubbles      */
+/* ======================= */
 .me, .other {
   max-width: 75%;
   padding: 10px 14px;
@@ -76,11 +86,8 @@ body {
   font-size: 24px;
   line-height: 1.4;
   word-wrap: break-word;
-  
-  /* Use flex column to separate message and time */
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* default left for others */
   position: relative;
 }
 
@@ -89,7 +96,7 @@ body {
   color: #000;
   margin-left: auto;
   border-bottom-right-radius: 5px;
-  align-items: flex-end; /* align timestamp to right */
+  align-items: flex-end; /* timestamp right */
 }
 
 .other {
@@ -100,15 +107,26 @@ body {
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
-/* Timestamp inside bubble at bottom-right */
+/* Timestamp */
 .time {
   font-size: 10px;
   color: gray;
   margin-top: 4px;
-  align-self: flex-end; /* timestamp on bottom right */
+  align-self: flex-end;
 }
 
-/* Input Box */
+/* Images inside chat */
+.chat-img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 12px;
+  margin-top: 5px;
+  object-fit: cover;
+}
+
+/* ======================= */
+/*        Input Box        */
+/* ======================= */
 .inputBox {
   display: flex;
   align-items: center;
@@ -118,17 +136,39 @@ body {
   flex-shrink: 0;
 }
 
-.inputBox input {
+/* Text input */
+.inputBox input[type="text"] {
   flex: 1;
   padding: 12px 16px;
-  border-radius: 20px;
+  border-radius: 25px;
   border: 1px solid #ccc;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
 }
 
+/* Paperclip icon (attach) */
+.attach-icon {
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0 8px;
+  color: #075e54;
+  background: #e0f2f1;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.attach-icon:hover {
+  background: #25d366;
+  color: #fff;
+  transform: scale(1.2);
+}
+
+/* Send button */
 .inputBox button {
-  margin-left: 10px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -150,53 +190,70 @@ body {
   transform: none;
 }
 
-/* Fully responsive adjustments */
+/* ======================= */
+/*     Responsive Styles   */
+/* ======================= */
 
-/* Smartphones (portrait & landscape) */
-@media (min-width: 421px) and (max-width: 768px) {
-  .chat {
-    width: 100vw;   /* full width on smartphone */
-    height: 100vh;  /* full height */
+/* Smartphones */
+@media (max-width: 768px) {
+  .inputBox input[type="text"] {
+    font-size: 16px;
+    padding: 10px 12px;
   }
 
-  .inputBox input {
-    font-size: 16px; /* slightly larger for smartphone */
-    padding: 12px 14px;
+  .attach-icon {
+    font-size: 18px;
+    padding: 8px;
+    margin: 0 6px;
   }
 
   .inputBox button {
     width: 45px;
     height: 45px;
+    font-size: 14px;
   }
 
   .me, .other {
-    max-width: 80%;  /* slightly wider chat bubbles */
+    max-width: 80%;
     font-size: 14px;
   }
 }
 
 /* Tablets */
-@media (min-width: 421px) and (max-width: 1024px) {
-  .chat {
-    width: 100vw;
-    height: 100vh;
+@media (min-width: 769px) and (max-width: 1024px) {
+  .inputBox input[type="text"] {
+    font-size: 18px;
+    padding: 12px 14px;
   }
 
-  .inputBox input {
-    font-size: 36px;
-    padding: 12px 16px;
+  .attach-icon {
+    font-size: 20px;
+    padding: 10px;
+    margin: 0 8px;
   }
 
   .inputBox button {
     width: 50px;
     height: 50px;
+    font-size: 16px;
   }
 }
 
-/* Laptops & desktops */
+/* Desktops */
 @media (min-width: 1025px) {
-  .chat {
-    width: 100vw;
-    height: 100vh;
+  .inputBox input[type="text"] {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+
+  .attach-icon {
+    font-size: 22px;
+    padding: 10px;
+    margin: 0 8px;
+  }
+
+  .inputBox button {
+    width: 50px;
+    height: 50px;
   }
 }
