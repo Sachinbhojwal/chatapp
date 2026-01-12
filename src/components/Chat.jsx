@@ -1,12 +1,18 @@
 import '../style/chat.css';
 import { collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { signOut } from "firebase/auth";
 
 export default function Chat() {
   const [msg, setMsg] = useState("");
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
+
+  // Scroll to bottom when messages update
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("time"));
@@ -15,6 +21,8 @@ export default function Chat() {
     });
     return () => unsub();
   }, []);
+
+  useEffect(scrollToBottom, [messages]);
 
   const sendMsg = async () => {
     if (!msg || !auth.currentUser) return;
@@ -33,25 +41,33 @@ export default function Chat() {
     await deleteDoc(doc(db, "messages", id));
   };
 
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+  };
+
   return (
     <div className="chat">
-      {/* ===== Logout Header ===== */}
+      {/* ===== Header ===== */}
       <div className="chat-header">
+        <h3>My Chat</h3>
         <button onClick={() => signOut(auth)}>Logout</button>
       </div>
 
       {/* ===== Messages ===== */}
       <div className="messages">
-        {messages.map((m, i) => (
+        {messages.map((m) => (
           <div
-            key={i}
+            key={m.id}
             className={m.uid === auth.currentUser.uid ? "me" : "other"}
             onDoubleClick={() => m.uid === auth.currentUser.uid && deleteMsg(m.id)}
             title={m.uid === auth.currentUser.uid ? "Double-click to delete" : ""}
           >
-            {m.text}
+            <span className="text">{m.text}</span>
+            <span className="time">{formatTime(m.time)}</span>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* ===== Input Box ===== */}
@@ -59,7 +75,8 @@ export default function Chat() {
         <input
           value={msg}
           onChange={e => setMsg(e.target.value)}
-          placeholder="Message likho..."
+          placeholder="Type a message..."
+          onKeyDown={e => e.key === "Enter" && sendMsg()}
         />
         <button onClick={sendMsg} disabled={!msg}>Send</button>
       </div>
