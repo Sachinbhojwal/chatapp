@@ -151,16 +151,25 @@ body {
 
 /* Fully responsive adjustments */
 
-/* Small phones */
-@media (max-width: 420px) {
+/* Smartphones (portrait & landscape) */
+@media (min-width: 421px) and (max-width: 768px) {
+  .chat {
+    width: 100vw;   /* full width on smartphone */
+    height: 100vh;  /* full height */
+  }
+
   .inputBox input {
-    font-size: 14px;
-    padding: 10px 12px;
+    font-size: 16px; /* slightly larger for smartphone */
+    padding: 12px 14px;
   }
 
   .inputBox button {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .me, .other {
+    max-width: 80%;  /* slightly wider chat bubbles */
     font-size: 14px;
   }
 }
