@@ -1,3 +1,4 @@
+import "../style/signup.css";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useState } from "react";

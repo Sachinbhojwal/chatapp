@@ -1,3 +1,4 @@
+import '../style/chat.css';
 import { collection, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useEffect, useState } from "react";
@@ -29,8 +30,12 @@ export default function Chat() {
 
   return (
     <div className="chat">
-      <button onClick={() => signOut(auth)}>Logout</button>
+      {/* ===== Logout Header ===== */}
+      <div className="chat-header">
+        <button onClick={() => signOut(auth)}>Logout</button>
+      </div>
 
+      {/* ===== Messages ===== */}
       <div className="messages">
         {messages.map((m, i) => (
           <div
@@ -42,12 +47,15 @@ export default function Chat() {
         ))}
       </div>
 
-      <input
-        value={msg}
-        onChange={e => setMsg(e.target.value)}
-        placeholder="Message likho..."
-      />
-      <button onClick={sendMsg}>Send</button>
+      {/* ===== Input Box ===== */}
+      <div className="inputBox">
+        <input
+          value={msg}
+          onChange={e => setMsg(e.target.value)}
+          placeholder="Message likho..."
+        />
+        <button onClick={sendMsg} disabled={!msg}>Send</button>
+      </div>
     </div>
   );
 }
