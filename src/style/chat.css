@@ -215,14 +215,14 @@ body {
 
   .me, .other {
     max-width: 80%;
-    font-size: 14px;
+    font-size: 24px;
   }
 }
 
 /* Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
   .inputBox input[type="text"] {
-    font-size: 18px;
+    font-size: 28px;
     padding: 12px 14px;
   }
 
@@ -242,7 +242,7 @@ body {
 /* Desktops */
 @media (min-width: 1025px) {
   .inputBox input[type="text"] {
-    font-size: 16px;
+    font-size: 26px;
     padding: 12px 16px;
   }
 
