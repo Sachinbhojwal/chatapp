@@ -1,5 +1,5 @@
 import '../style/chat.css';
-import { collection, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
@@ -11,7 +11,7 @@ export default function Chat() {
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("time"));
     const unsub = onSnapshot(q, snap => {
-      setMessages(snap.docs.map(doc => doc.data()));
+      setMessages(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     });
     return () => unsub();
   }, []);
@@ -28,6 +28,11 @@ export default function Chat() {
     setMsg("");
   };
 
+  const deleteMsg = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this message?")) return;
+    await deleteDoc(doc(db, "messages", id));
+  };
+
   return (
     <div className="chat">
       {/* ===== Logout Header ===== */}
@@ -41,6 +46,8 @@ export default function Chat() {
           <div
             key={i}
             className={m.uid === auth.currentUser.uid ? "me" : "other"}
+            onDoubleClick={() => m.uid === auth.currentUser.uid && deleteMsg(m.id)}
+            title={m.uid === auth.currentUser.uid ? "Double-click to delete" : ""}
           >
             {m.text}
           </div>
